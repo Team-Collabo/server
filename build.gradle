@@ -26,6 +26,20 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
+
+	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+	// https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+	// https://mvnrepository.com/artifact/io.springfox/springfox-bean-validators
+	compile group: 'io.springfox', name: 'springfox-bean-validators', version: '3.0.0'
+	// https://mvnrepository.com/artifact/io.springfox/springfox-data-rest
+	compile group: 'io.springfox', name: 'springfox-data-rest', version: '3.0.0'
+
+	// https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
+	compile group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
