@@ -1,4 +1,4 @@
-package com.team.collabo.shared;
+package com.team.collabo.shared.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
