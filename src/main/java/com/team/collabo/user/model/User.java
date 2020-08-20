@@ -1,40 +1,56 @@
 package com.team.collabo.user.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
-import static javax.persistence.EnumType.STRING;
-import static javax.persistence.GenerationType.IDENTITY;
-
+@Setter
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
+    private String name;
+
+    @Email
+    @Column(nullable = false)
     private String email;
 
-    private String picture;
+    private String imageUrl;
 
-    @Enumerated(STRING)
     @Column(nullable = false)
-    private OAuthProvider oAuthProvider;
+    private Boolean emailVerified = false;
 
-    @Enumerated(STRING)
-    @Column(nullable = false)
-    private UserRole role;
+    @JsonIgnore
+    private String password;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
 
     @Builder
-    public User(Long id, OAuthProvider oAuthProvider, UserRole role) {
-        this.id = id;
-        this.oAuthProvider = oAuthProvider;
-        this.role = role;
+    public User(String name, @Email String email, String imageUrl, Boolean emailVerified, String password, @NotNull AuthProvider provider, String providerId) {
+        this.name = name;
+        this.email = email;
+        this.imageUrl = imageUrl;
+        this.emailVerified = emailVerified;
+        this.password = password;
+        this.provider = provider;
+        this.providerId = providerId;
     }
 }
