@@ -1,11 +1,11 @@
 package com.team.collabo.security.payload;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthResponse {
-    private String accessToken;
+    private final String accessToken;
     private String tokenType = "Bearer";
 }
