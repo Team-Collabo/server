@@ -31,7 +31,7 @@ public class User {
 
     private String imageUrl;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean emailVerified = false;
 
     @JsonIgnore
@@ -41,10 +41,17 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider provider;
 
+    @Column(nullable = true)
     private String providerId;
 
     @Builder
-    public User(String name, @Email String email, String imageUrl, Boolean emailVerified, String password, @NotNull AuthProvider provider, String providerId) {
+    public User(String name,
+                @Email String email,
+                String imageUrl,
+                Boolean emailVerified,
+                String password,
+                @NotNull AuthProvider provider,
+                String providerId) {
         this.name = name;
         this.email = email;
         this.imageUrl = imageUrl;

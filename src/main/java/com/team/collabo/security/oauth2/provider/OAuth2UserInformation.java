@@ -1,13 +1,13 @@
-package com.team.collabo.security.oauth2.user;
+package com.team.collabo.security.oauth2.provider;
 
 import lombok.Getter;
 
 import java.util.Map;
 
 @Getter
-public abstract class OAuth2UserInformation {
-    protected Map<String, Object> attributes;
-    public OAuth2UserInformation(Map<String, Object> attributes) {
+public abstract class OAuth2UserInformation<T extends Map<String, Object>> {
+    protected T attributes;
+    public OAuth2UserInformation(T attributes) {
         this.attributes = attributes;
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class UserPrincipal implements OAuth2User, UserDetails {
+public class AuthUser implements OAuth2User, UserDetails {
     private final Long id;
     private final String email;
     private final String password;
@@ -22,7 +22,12 @@ public class UserPrincipal implements OAuth2User, UserDetails {
     private Map<String, Object> attributes;
 
     @Builder
-    public UserPrincipal(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes) {
+    public AuthUser(final Long id,
+                    final String email,
+                    final String password,
+                    final Collection<? extends GrantedAuthority> authorities,
+                    Map<String, Object> attributes) {
+
         this.id = id;
         this.email = email;
         this.password = password;
@@ -30,11 +35,11 @@ public class UserPrincipal implements OAuth2User, UserDetails {
         this.attributes = attributes;
     }
 
-    public static UserPrincipal create(User user) {
+    public static AuthUser create(final User user) {
         List<GrantedAuthority> authorities = Collections.
                 singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
-        return UserPrincipal.builder()
+        return AuthUser.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .password(user.getPassword())
@@ -42,12 +47,12 @@ public class UserPrincipal implements OAuth2User, UserDetails {
                 .build();
     }
 
-    public static UserPrincipal create(User user, Map<String, Object> attributes) {
-        return UserPrincipal.create(user)
+    public static AuthUser create(final User user, final Map<String, Object> attributes) {
+        return AuthUser.create(user)
                 .withAttribute(attributes);
     }
 
-    private UserPrincipal withAttribute(Map<String, Object> attributes) {
+    private AuthUser withAttribute(final Map<String, Object> attributes) {
         this.attributes = attributes;
         return this;
     }

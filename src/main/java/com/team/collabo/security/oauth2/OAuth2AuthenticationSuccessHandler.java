@@ -1,7 +1,7 @@
 package com.team.collabo.security.oauth2;
 
 import com.team.collabo.security.TokenProvider;
-import com.team.collabo.security.config.AppProperties;
+import com.team.collabo.security.properties.JwtProperties;
 import com.team.collabo.security.exception.BadRequestException;
 import com.team.collabo.security.util.CookieUtils;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +27,14 @@ import static com.team.collabo.security.oauth2.HttpCookieOAuth2AuthorizationRequ
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final TokenProvider tokenProvider;
-    private final AppProperties appProperties;
+    private final JwtProperties jwtProperties;
     private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        String targetUrl = determineTargetUrl(request, response, authentication);
+    public void onAuthenticationSuccess(final HttpServletRequest request,
+                                        final HttpServletResponse response,
+                                        final Authentication authentication) throws IOException, ServletException {
+        final String targetUrl = determineTargetUrl(request, response, authentication);
 
         if (response.isCommitted()) {
             log.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -43,7 +45,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
-    protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    protected String determineTargetUrl(final HttpServletRequest request,
+                                        final HttpServletResponse response,
+                                        final Authentication authentication) {
         Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue);
 
@@ -60,7 +64,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 .build().toUriString();
     }
 
-    protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {
+    protected void clearAuthenticationAttributes(final HttpServletRequest request,
+                                                 final HttpServletResponse response) {
         super.clearAuthenticationAttributes(request);
         httpCookieOAuth2AuthorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
     }
@@ -68,7 +73,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     private boolean isAuthorizedRedirectUri(String uri) {
         URI clientRedirectUri = URI.create(uri);
 
-        return appProperties.getOauth2().getAuthorizedRedirectUris()
+        return jwtProperties.getOauth2().getAuthorizedRedirectUris()
                 .stream()
                 .anyMatch(authorizedRedirectUri -> {
                     // Only validate host and port. Let the clients use different paths if they want to

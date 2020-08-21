@@ -1,9 +1,9 @@
-package com.team.collabo.security.oauth2.user;
+package com.team.collabo.security.oauth2.provider;
 
 import java.util.Map;
 
-public class FacebookOAuth2UserInformation extends OAuth2UserInformation {
-    public FacebookOAuth2UserInformation(Map<String, Object> attributes) {
+public class FacebookOAuth2UserInformation<T extends Map<String, Object>> extends OAuth2UserInformation<T> {
+    public FacebookOAuth2UserInformation(final T attributes) {
         super(attributes);
     }
 
@@ -25,9 +25,9 @@ public class FacebookOAuth2UserInformation extends OAuth2UserInformation {
     @Override
     public String getImageUrl() {
         if(attributes.containsKey("picture")) {
-            Map<String, Object> pictureObj = (Map<String, Object>) attributes.get("picture");
+            Map<String, Object> pictureObj = (T) attributes.get("picture");
             if(pictureObj.containsKey("data")) {
-                Map<String, Object>  dataObj = (Map<String, Object>) pictureObj.get("data");
+                Map<String, Object>  dataObj = (T) pictureObj.get("data");
                 if(dataObj.containsKey("url")) {
                     return (String) dataObj.get("url");
                 }

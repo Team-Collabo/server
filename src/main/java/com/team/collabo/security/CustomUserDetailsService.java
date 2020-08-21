@@ -17,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
-        return UserPrincipal.create(
+        return AuthUser.create(
                 userRepository.findByEmail(email)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found with email : " + email))
         );
@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Transactional
     public UserDetails loadUserById(final Long id) {
-        return UserPrincipal.create(
+        return AuthUser.create(
                 userRepository.findById(id)
                         .orElseThrow(() -> new ResourceNotFoundException("User", "id", id))
         );

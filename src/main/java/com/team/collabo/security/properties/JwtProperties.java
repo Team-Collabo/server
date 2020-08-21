@@ -1,4 +1,4 @@
-package com.team.collabo.security.config;
+package com.team.collabo.security.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,8 +10,8 @@ import java.util.List;
 
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "app")
-public class AppProperties {
+@ConfigurationProperties("app")
+public class JwtProperties {
     private final Auth auth = new Auth();
     private final OAuth2 oauth2 = new OAuth2();
 
@@ -26,7 +26,7 @@ public class AppProperties {
     public static final class OAuth2 {
         private List<String> authorizedRedirectUris = new ArrayList<>();
 
-        public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
+        public OAuth2 authorizedRedirectUris(final List<String> authorizedRedirectUris) {
             this.authorizedRedirectUris = authorizedRedirectUris;
             return this;
         }

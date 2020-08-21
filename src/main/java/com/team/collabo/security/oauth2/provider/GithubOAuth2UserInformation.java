@@ -1,10 +1,10 @@
-package com.team.collabo.security.oauth2.user;
+package com.team.collabo.security.oauth2.provider;
 
 import java.util.Map;
 
-public class GithubOAuth2UserInformation extends OAuth2UserInformation {
+public class GithubOAuth2UserInformation<T extends Map<String, Object>> extends OAuth2UserInformation<T> {
 
-    public GithubOAuth2UserInformation(Map<String, Object> attributes) {
+    public GithubOAuth2UserInformation(T attributes) {
         super(attributes);
     }
 

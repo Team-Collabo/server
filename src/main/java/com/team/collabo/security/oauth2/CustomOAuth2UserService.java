@@ -1,9 +1,9 @@
 package com.team.collabo.security.oauth2;
 
-import com.team.collabo.security.UserPrincipal;
+import com.team.collabo.security.AuthUser;
 import com.team.collabo.security.exception.OAuth2AuthenticationProcessingException;
-import com.team.collabo.security.oauth2.user.OAuth2UserInformation;
-import com.team.collabo.security.oauth2.user.OAuth2UserInfoFactory;
+import com.team.collabo.security.oauth2.provider.OAuth2UserInformation;
+import com.team.collabo.security.oauth2.provider.OAuth2UserInfoFactory;
 import com.team.collabo.user.model.AuthProvider;
 import com.team.collabo.user.model.User;
 import com.team.collabo.user.repository.UserRepository;
@@ -26,7 +26,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
 
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
+    public OAuth2User loadUser(final OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
 
         try {
@@ -39,7 +39,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
+    private OAuth2User processOAuth2User(final OAuth2UserRequest oAuth2UserRequest,
+                                         final OAuth2User oAuth2User) {
         OAuth2UserInformation oAuth2UserInformation = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
         if(StringUtils.isEmpty(oAuth2UserInformation.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
@@ -59,10 +60,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInformation);
         }
 
-        return UserPrincipal.create(user, oAuth2User.getAttributes());
+        return AuthUser.create(user, oAuth2User.getAttributes());
     }
 
-    private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInformation oAuth2UserInformation) {
+    private User registerNewUser(final OAuth2UserRequest oAuth2UserRequest,
+                                 final OAuth2UserInformation oAuth2UserInformation) {
         return userRepository.save(
                 User.builder()
                 .email(oAuth2UserInformation.getEmail())
@@ -74,7 +76,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         );
     }
 
-    private User updateExistingUser(User existingUser, OAuth2UserInformation oAuth2UserInformation) {
+    private User updateExistingUser(final User existingUser,
+                                    final OAuth2UserInformation oAuth2UserInformation) {
         return userRepository.save(
                 User.builder()
                 .name(oAuth2UserInformation.getName())

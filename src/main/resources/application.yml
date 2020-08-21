@@ -7,6 +7,7 @@ spring:
             client-id: '408019739663-36iqjm145hgs48nsqcjsa1nh9ehml9q8.apps.googleusercontent.com'
             client-secret: 'Tl4vClaAAqC71o9rGcjfZsRJ'
             redirectUri: "/login/oauth2/code/google"
+            #redirectUri: "http://localhost:3000"
             scope:
               - email
               - profile
@@ -18,16 +19,11 @@ spring:
 
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-
-  session:
-    store-type: jdbc
-  profiles:
-    include: oauth
+    #hibernate:
+    #  ddl-auto: create
+    #properties:
+    #  hibernate:
+    #    dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 
 app:
@@ -37,11 +33,9 @@ app:
   oauth2:
     # After successfully authenticating with the OAuth2 Provider,
     # we'll be generating an auth token for the user and sending the token to the
-    # redirectUri mentioned by the frontend client in the /oauth2/authorize request.
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
     # We're not using cookies because they won't work well in mobile clients.
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
       - myandroidapp://oauth2/redirect
       - myiosapp://oauth2/redirect
-
-
