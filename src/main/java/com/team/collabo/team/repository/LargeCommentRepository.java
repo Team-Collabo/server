@@ -1,4 +1,7 @@
 package com.team.collabo.team.repository;
 
-public interface LargeCommentRepository {
+import com.team.collabo.team.model.LargeComment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LargeCommentRepository extends JpaRepository<LargeComment, Long> {
 }
