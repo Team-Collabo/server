@@ -36,8 +36,8 @@ public class AuthUser implements OAuth2User, UserDetails {
     }
 
     public static AuthUser create(final User user) {
-        List<GrantedAuthority> authorities = Collections.
-                singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+        List<GrantedAuthority> authorities =
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         return AuthUser.builder()
                 .id(user.getId())
