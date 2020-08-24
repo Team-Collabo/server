@@ -10,10 +10,8 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class SignUpRequest {
     private String name;
-
     @Email
     private String email;
-
     private String password;
 
     public SignUpRequest(@NotBlank String name, @NotBlank @Email String email, @NotBlank String password) {

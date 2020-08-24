@@ -1,18 +1,23 @@
 package com.team.collabo.security.payload;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class LoginFormRequest {
     @NotBlank
     @Email
-    private final String email;
+    private String email;
 
     @NotBlank
-    private final String password;
+    private String password;
+
+    public LoginFormRequest(@NotBlank @Email String email, @NotBlank String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

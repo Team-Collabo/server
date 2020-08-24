@@ -13,7 +13,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Member extends BaseTimeEntity {
+public class Member extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "member_id")
@@ -32,7 +32,13 @@ public class Member extends BaseTimeEntity {
     public Member(Long id, String nickname, User user, Team team) {
         this.id = id;
         this.nickname = nickname;
-        this.user = user;
         this.team = team;
+        this.user = user;
+    }
+
+    public Member addMemberToTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+        return this;
     }
 }
