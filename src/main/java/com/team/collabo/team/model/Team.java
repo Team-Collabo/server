@@ -5,10 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -23,10 +22,19 @@ public class Team extends BaseTimeEntity {
     private String name;
     private String description;
 
+    @OneToMany(mappedBy = "team")
+    private List<Member> members = new ArrayList<>();
+
+    public Team(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     @Builder
-    public Team(Long id, String name, String description) {
+    public Team(Long id, String name, String description, List<Member> members) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.members = members;
     }
 }
